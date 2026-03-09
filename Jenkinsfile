@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    environment {
+        PYTHON = 'C:\\Users\\Akanksha\\AppData\\Local\\Python\\pythoncore-3.14-64\\python.exe'
+    }
+
     stages {
         stage('Checkout') {
             steps { checkout scm }
@@ -8,14 +12,14 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                bat 'py -m pip install --upgrade pip'
-                bat 'py -m pip install -r requirements.txt'
+                bat '"%PYTHON%" -m pip install --upgrade pip'
+                bat '"%PYTHON%" -m pip install -r requirements.txt'
             }
         }
 
         stage('Run Tests') {
             steps {
-                bat 'py -m pytest test_app.py -v'
+                bat '"%PYTHON%" -m pytest test_app.py -v'
             }
             post {
                 failure { echo 'Tests failed!' }
