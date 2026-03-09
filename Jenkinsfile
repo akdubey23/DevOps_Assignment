@@ -8,14 +8,14 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                sh 'python3 -m pip install --upgrade pip'
-                sh 'pip3 install -r requirements.txt'
+                bat 'py -m pip install --upgrade pip'
+                bat 'py -m pip install -r requirements.txt'
             }
         }
 
         stage('Run Tests') {
             steps {
-                sh 'pytest test_app.py -v'
+                bat 'py -m pytest test_app.py -v'
             }
             post {
                 failure { echo 'Tests failed!' }
@@ -24,7 +24,7 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t flask-app:${BUILD_NUMBER} .'
+                bat "docker build -t flask-app:${BUILD_NUMBER} ."
             }
         }
     }
